@@ -4,6 +4,8 @@ import { Post, PostProps } from "./components/Post";
 
 import styles from './App.module.css';
 import './global.css';
+import { Input } from "./components/input";
+import { Button } from "./components/button";
 
 interface Post extends PostProps {
   id: number
@@ -63,20 +65,11 @@ function App() {
     <>
       <Header />
       <div className={styles.wrapper}>
-        <aside>
-          <SideBar />
-        </aside>
         <main>
-          {posts.map((post) => {
-            return (
-              <Post
-                key={post.id}
-                author={post.author}
-                content={post.content}
-                publishedAt={post.publishedAt}
-              />
-            )
-          })}
+          <div className={styles.container}>
+            <Input/>
+            <Button/>
+          </div>
         </main>
       </div>
 
