@@ -8,8 +8,13 @@ input {
   line-height: 140%;
   font-weight: 400;
   width: 100%;
+  max-width: 46rem;
 }
 
 input:focus {
   border: 1px solid var(--purple-dark);
+}
+
+input::placeholder {
+  color: var(--gray-300);
 }

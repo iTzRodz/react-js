@@ -1,18 +1,23 @@
-import { ButtonHTMLAttributes } from 'react';
-import styles from './button.module.css';
-import TrashIcon from '../assets/imgs/icon/trash';
-import CirclePlus from '../assets/imgs/icon/circle-plus';
+import { ButtonHTMLAttributes } from 'react'
+import styles from './button.module.css'
+import TrashIcon from '../assets/imgs/icon/trash'
+import CirclePlus from '../assets/imgs/icon/circle-plus'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   hasDeletedIcon?: boolean
 }
 
-export function Button({ hasDeletedIcon = false }: ButtonProps) {
+export function Button({ hasDeletedIcon = false, children ,...props }: ButtonProps) {
   return (
     <>
-      {hasDeletedIcon ? <TrashIcon /> : (
+      {hasDeletedIcon ? (
+        <button type='button' className={styles.buttonCheck} {...props}>
+          {children}
+          {/* <TrashIcon /> */}
+        </button>
+      ) : (
         <>
-          <button type="button" className={styles.button} >
+          <button type="button" className={styles.buttonCreateTask} {...props}>
             Criar
             <CirclePlus />
           </button>

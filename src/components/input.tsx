@@ -1,9 +1,18 @@
-import styles from './input.module.css';
+import { InputHTMLAttributes, forwardRef } from 'react'
+import styles from './input.module.css'
 
-export function Input () {
+type InputProps = InputHTMLAttributes<HTMLInputElement>;
+
+const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   return (
-    <div className={styles.input} style={{  width: '100%' }}>
-      <input type="text" placeholder="Adicione uma nova tarefa" />
-    </div>
-  )
-}
+    <input
+      className={styles.input}
+      type="text"
+      placeholder="Adicione uma nova tarefa"
+      ref={ref} // repassando a ref para o input
+      {...props} // espalhando as demais propriedades
+    />
+  );
+});
+
+export default Input
