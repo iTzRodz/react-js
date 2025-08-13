@@ -20,3 +20,12 @@
   font-size: 0.875rem;
   font-weight: normal;
 }
+
+.containerTaskFinished {
+  background-color: var(--gray-500);
+}
+
+.taskNameFinished {
+  text-decoration: line-through;
+  color: var(--gray-300);
+}

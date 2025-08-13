@@ -1,50 +1,63 @@
-import { useEffect, useState } from 'react'
-import { TasksProps } from '../../interface/tasks'
-import styles from './index.module.css'
-import { ListTasks } from './List'
+import { useEffect, useState } from "react";
+import { TasksProps } from "../../interface/tasks";
+import styles from "./index.module.css";
+import { ListTasks } from "./List";
 
 interface Task {
-  newTask: string
+  newTask: string;
 }
 
 export function TasksPainel({ newTask }: Task) {
-  const [tasks, setTasks] = useState<TasksProps[]>([])
-  const [taskFinished, setTaskFinished] = useState(0);
+  const [tasks, setTasks] = useState<TasksProps[]>([]);
 
   useEffect(() => {
     function checkIfTaskAlreadyCreated() {
-      const task = tasks.filter(task => task.name === newTask)
-      return task.length > 0 ? true : false
+      const task = tasks.filter((task) => task.name === newTask);
+      return task.length > 0 ? true : false;
     }
 
     if (newTask) {
       const body = {
         isDone: false,
-        name: newTask
-      }
+        name: newTask,
+      };
 
-      const isTaskCreated = checkIfTaskAlreadyCreated()
+      const isTaskCreated = checkIfTaskAlreadyCreated();
 
       if (isTaskCreated) {
-        console.log('evento cadastrado')
-        return
+        console.log("evento cadastrado");
+        return;
       }
-      setTasks(prevTasks => [...prevTasks, body])
+      setTasks((prevTasks) => [...prevTasks, body]);
     }
-  }, [newTask])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newTask]);
 
-  useEffect(() => {
-    
-  },[taskFinished])
   function calculationTasksDone() {
-    let count = 0
-    tasks.map(allTasks => {
+    let count = 0;
+    tasks.map((allTasks) => {
       if (allTasks.isDone) {
-        count += 1
+        count += 1;
       }
-    })
+    });
 
-    return count
+    return count;
+  }
+
+  function handleStatusChange(status: boolean, name: string) {
+    setTasks((prevTasks) =>
+      prevTasks
+        .map((task) =>
+          task.name === name ? { ...task, isDone: status } : task
+        )
+        .sort((a, b) => Number(a.isDone) - Number(b.isDone))
+    );
+  }
+
+  function handleDeleteTask(name: string) {
+    setTasks((prevTasks) => {
+      return prevTasks.filter((task) => task.name.toLocaleLowerCase() !== name.toLocaleLowerCase());
+    });
   }
 
   return (
@@ -73,11 +86,17 @@ export function TasksPainel({ newTask }: Task) {
         </div>
       ) : (
         <>
-          {tasks.map((task, index) => (
-            <ListTasks key={index} name={task.name} isDone={task.isDone} />
+          {tasks.map((task) => (
+            <ListTasks
+              key={task.name}
+              name={task.name}
+              isDone={task.isDone}
+              handleStatusChange={handleStatusChange}
+              handleDeleteTask={handleDeleteTask}
+            />
           ))}
         </>
       )}
     </section>
-  )
+  );
 }

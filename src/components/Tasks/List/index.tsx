@@ -5,23 +5,26 @@ import { TasksProps } from '../../../interface/tasks'
 import { Button } from '../../button'
 import styles from './index.module.css'
 
-export function ListTasks({ isDone, name }: TasksProps) {
-  function finishTask (status: boolean) {
-    console.log(status)
+export function ListTasks({ isDone, name, handleStatusChange, handleDeleteTask }: TasksProps) {
+
+  function finishTask () {
+    if (!handleStatusChange) return
+    handleStatusChange(!isDone, name)
   }
 
-  function handleDeleteTask() {
-    
+  function deleteTask() {
+    if (!handleDeleteTask) return
+    handleDeleteTask(name)
   }
+
   return (
     <div className={styles.containerListTask}>
       <div className={styles.painelTask}>
-        {/* <Button hasDeletedIcon/> */}
-        <Button hasDeletedIcon onClick={() => finishTask(isDone)} type='button' name={isDone ? 'finished' : 'todo'}>
+        <Button hasDeletedIcon onClick={() => finishTask()} type='button' name={isDone ? 'finished' : 'todo'}>
           {isDone ? <CheckedIcon /> : <CheckIcon />}
         </Button>
-        <p className={styles.taskName}>{name}</p>
-        <Button hasDeletedIcon onClick={handleDeleteTask}>
+        <p className={`${styles.taskName} ${isDone ? styles.taskNameFinished : ''}`}>{name}</p>
+        <Button hasDeletedIcon onClick={deleteTask}>
           <TrashIcon/>  
         </Button>
       </div>
