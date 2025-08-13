@@ -1,4 +1,6 @@
 export interface TasksProps {
   name: string;
-  isDone: boolean
+  isDone: boolean;
+  handleStatusChange?: (status: boolean, name: string) => void;
+  handleDeleteTask?: (name: string) => void;
 }
